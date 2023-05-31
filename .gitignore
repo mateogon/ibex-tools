@@ -2,7 +2,7 @@
 *.csv
 
 # Ignore all .txt files in /output folder
-/output/*.txt
+/outputs/*.txt
 
 *.workspace
 
