@@ -1,6 +1,6 @@
 # Ibex Optimization Benchmark Automation
 
-This project automates the running and benchmarking of optimization tasks using the Ibex library's `ibexopt` tool. The project includes two main scripts: `run.sh`, which orchestrates the running of the optimization tasks, and `parse_results.py`, a Python script which processes the output of the tasks to extract relevant statistics.
+This project automates the running and benchmarking of optimization tasks using the Ibex library's `ibexopt` tool. The project includes two main scripts: `run.py`, which orchestrates the running of the optimization tasks, and `parse_results.py`, a Python script which processes the output of the tasks to extract relevant statistics.
 
 ## Requirements
 
@@ -11,7 +11,7 @@ This project automates the running and benchmarking of optimization tasks using 
 
 ### Setup
 
-Modify the `run.sh` script to set the correct paths for your environment:
+Modify the `run.py` script to set the correct paths for your environment:
 
 - `ibex_dir`: Directory where ibex-lib is located.
 - `tools_dir`: Directory where ibex-tools and your output files are located.
@@ -30,17 +30,15 @@ Once the paths and parameters are correctly set up, you are ready to run the scr
 
 ### Execution
 
-Make sure the script `run.sh` is executable. You can do this by running the following command in your terminal:
+The script `run.py` is a Python script, so it does not need to be made executable like a shell script.
+
+To start the benchmark tests, run:
 
 ```bash
-chmod +x run.sh
+sudo /bin/python3 /path/to/your/run.py
 ```
 
-Next, to start the benchmark tests, run:
-
-```bash
-sudo -E ./run.sh
-```
+Replace /path/to/your/run.py with the actual path to your run.py script.
 
 The script will print its progress to the console and create output files for each benchmark run in the outputs directory of your tools_dir.
 
