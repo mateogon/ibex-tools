@@ -1,49 +1,56 @@
 #!/bin/bash
-#!/bin/bash
-
 # ---------------------------------------------
-# Script: run_tests.sh
+# Script: run.sh
 # ---------------------------------------------
 #
 # OVERVIEW
 # --------
-# This script automates the running of a series of optimization tasks using the `ibexopt` tool from 
-# the Ibex library. The script runs the tasks with different parameter combinations, then analyzes 
-# the results with a Python script. The tasks are executed in parallel, up to a maximum number of concurrent jobs.
+# This script automates the running and benchmarking of optimization tasks using the Ibex 
+# library's `ibexopt` tool. It first runs a baseline benchmark for comparison, then conducts 
+# multiple test runs with a variety of parameter combinations. It then analyzes the results 
+# using a Python script. By running tasks in parallel, the script efficiently leverages 
+# system resources for improved performance.
 #
 # PARAMETERS
 # ----------
-# ibex_dir: The directory of the Ibex library.
-# tools_dir: The directory of the Ibex tools.
-# input_file: The name of the input file containing the list of benchmarks to run.
-# python_interpreter: The location of the Python interpreter.
-# python_script: The location of the Python script used to parse the results.
-# ibexopt: The location of the `ibexopt` executable.
-# header_file: The location of the Ibex header file where the parameters are defined.
-# num_runs: The number of runs to execute for each parameter combination.
-# max_jobs: The maximum number of parallel jobs. This should be adjusted according to the number of CPU cores on your machine.
-# alpha_values, max_iter_values, prec_values: Arrays of parameter combinations to test.
+# - `ibex_dir`: Directory of Ibex library
+# - `tools_dir`: Directory of Ibex tools
+# - `input_file`: Name of the input file containing the list of benchmarks to run
+# - `python_interpreter`: Location of the Python interpreter
+# - `python_script`: Location of the Python script used to parse the results
+# - `python_script_baseline`: Location of the Python script used to create the baseline
+# - `ibexopt`: Location of the `ibexopt` executable
+# - `header_file`: Location of the Ibex header file where the parameters are defined
+# - `num_runs`: Number of runs
+# - `max_jobs`: Maximum number of parallel jobs, adjust this to the number of CPU cores on your machine
+# - `alpha_values`, `max_iter_values`, `prec_values`: Arrays of parameter combinations to test
+# - `baseline_alpha`, `baseline_max_iter`, `baseline_prec`, `baseline_num_runs`: Parameters for the baseline run
 #
 # FUNCTIONS
 # ---------
-# execute_ibexopt: Executes the `ibexopt` tool with a given benchmark and stores the output in a text file. 
-#                  This function is run in the background, allowing for parallel execution.
-# wait_for_jobs: Waits until the number of background jobs is below the maximum limit before returning.
-# run_python_script: Runs the Python script to parse the results of the `ibexopt` executions.
-# apply_params: Applies the parameters to the Ibex header file.
+# - `execute_ibexopt`: Executes the `ibexopt` tool with a given benchmark and stores the output in a text file. 
+#    It is run in the background, allowing for parallel execution.
+# - `execute_ibexopt_baseline`: Similar to `execute_ibexopt`, but used for running the baseline benchmark.
+# - `wait_for_jobs`: Waits until the number of background jobs is below the maximum limit before returning.
+# - `run_python_script`: Runs the Python script to parse the results of the `ibexopt` executions.
+# - `apply_params`: Applies the parameters to the Ibex header file.
 #
 # EXECUTION
 # ---------
-# The script executes a loop over each combination of parameter values. For each combination, it:
-#   1. Updates the Ibex header file with the new parameter values.
-#   2. Rebuilds the Ibex library.
-#   3. Executes the `ibexopt` tool for each benchmark in the input file, up to `num_runs` times each. 
+# 1. The script first runs the baseline benchmark with defined baseline parameters.
+# 2. Next, it proceeds with the main loop for other parameter combinations, which includes the following steps:
+#    - Updates the Ibex header file with the new parameter values.
+#    - Rebuilds the Ibex library.
+#    - Executes the `ibexopt` tool for each benchmark in the input file, up to `num_runs` times each. 
 #      These executions are done in parallel, up to `max_jobs` concurrent jobs.
-#   4. Waits for all `ibexopt` executions to finish.
-#   5. Runs the Python script to parse the results.
-#   6. Increments the loop counter and starts again with the next parameter combination.
+#    - Waits for all `ibexopt` executions to finish.
+#    - Runs the Python script to parse the results.
+#    - Increments the loop counter and starts again with the next parameter combination.
 #
+# The output of each `ibexopt` execution is saved to a text file in the `outputs` directory. The filename contains the 
+# name of the benchmark file and the run number, and for baseline runs, it is prefixed with `baseline_`.
 # ---------------------------------------------
+
 # Variable definitions
 ibex_dir="/home/mateo/Desktop/ibex-lib"         # Directory of ibex-lib
 tools_dir="/home/mateo/Desktop/ibex-tools"       # Directory of ibex-tools

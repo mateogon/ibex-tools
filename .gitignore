@@ -5,3 +5,6 @@
 /output/*.txt
 
 *.workspace
+
+run_tests.sh
+test_path.sh
