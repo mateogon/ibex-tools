@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/test_infinity1.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/test_infinity1.cov
+*******************************************************
+
+running............
+
+[31m possibly unbounded objective (f*=-oo)
+[0m
+ f* in	[-inf,-1.79769313486e+308]
+	(best bound)
+
+ x* =	(1.79769313487e+308 ; 0)
+	(best feasible point)
+
+ relative precision on f*:	-nan
+ absolute precision on f*:	inf
+ cpu time used:			0.129973000001s
+ number of cells:		2314
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/test_infinity1.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/test_infinity1.cov~)

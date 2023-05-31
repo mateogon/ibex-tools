@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/rosenbrock10.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/rosenbrock10.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[0,8.5336698591e-08]
+	(best bound)
+
+ x* =	(0.999996869554 ; 1.00000133362 ; 0.999995191041 ; 0.99999897122 ; 1.00000329547 ; 1.00000816604 ; 0.999995448269 ; 0.999996884294 ; 0.999992595454 ; -0.999998770436)
+	(best feasible point)
+
+ relative precision on f*:	inf
+ absolute precision on f*:	8.5336698591e-08[32m [passed] [0m
+ cpu time used:			0.216388000001s
+ number of cells:		304
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/rosenbrock10.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/rosenbrock10.cov~)

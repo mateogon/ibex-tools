@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/hs071.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/hs071.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[16.9985434809,17.0155420244]
+	(best bound)
+
+ x* =	(1 ; 4.77335415886 ; 3.78105725137 ; 1.38517007535)
+	(best feasible point)
+
+ relative precision on f*:	0.001[32m [passed] [0m
+ absolute precision on f*:	0.0169985434809
+ cpu time used:			0.145539000001s
+ number of cells:		192
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/hs071.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/hs071.cov~)

@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/ex8_5_5-1.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/ex8_5_5-1.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[-1.34818326459,-1.34683508132]
+	(best bound)
+
+ x* =	(0.968749999313 ; 0.0312500096875 ; 0.119609466848 ; 0.864441310475 ; 0.0886126668022)
+	(best feasible point)
+
+ relative precision on f*:	0.001[32m [passed] [0m
+ absolute precision on f*:	0.0013481832646
+ cpu time used:			0.0341230000001s
+ number of cells:		24
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/ex8_5_5-1.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/ex8_5_5-1.cov~)

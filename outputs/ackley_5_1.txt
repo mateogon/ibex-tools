@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/ackley_5.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/ackley_5.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[-8.284590578e-07,-8.28459036483e-07]
+	(best bound)
+
+ x* =	(-5.42101086242e-20 ; 0 ; 0 ; 0 ; -0)
+	(best feasible point)
+
+ relative precision on f*:	2.57300368342e-08[32m [passed] [0m
+ absolute precision on f*:	2.13162820729e-14[32m [passed] [0m
+ cpu time used:			0.0367100000001s
+ number of cells:		148
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/ackley_5.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/ackley_5.cov~)

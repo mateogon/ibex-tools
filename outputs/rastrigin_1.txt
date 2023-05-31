@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/rastrigin.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/rastrigin.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[0,2.13162820729e-14]
+	(best bound)
+
+ x* =	(-0 ; -0 ; -0 ; -0 ; -0)
+	(best feasible point)
+
+ relative precision on f*:	inf
+ absolute precision on f*:	2.13162820729e-14[32m [passed] [0m
+ cpu time used:			0.00515300000001s
+ number of cells:		10
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/rastrigin.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/rastrigin.cov~)

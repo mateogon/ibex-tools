@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/chance.bch
+  random seed:		1
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/chance.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[29.8645241622,29.8943886863]
+	(best bound)
+
+ x* =	(0.635520879036 ; 0 ; 0.312701952415 ; 0.0517771595499)
+	(best feasible point)
+
+ relative precision on f*:	0.001[32m [passed] [0m
+ absolute precision on f*:	0.0298645241622
+ cpu time used:			0.00568100000001s
+ number of cells:		6
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/chance.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/chance.cov~)

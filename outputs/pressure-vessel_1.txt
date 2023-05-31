@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/pressure-vessel.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/pressure-vessel.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[3082.04048612,3085.12252661]
+	(best bound)
+
+ x* =	(1.25891000216 ; 0.0625 ; 65.228497469 ; 10)
+	(best feasible point)
+
+ relative precision on f*:	0.001[32m [passed] [0m
+ absolute precision on f*:	3.08204048612
+ cpu time used:			0.00368300000001s
+ number of cells:		8
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/pressure-vessel.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/pressure-vessel.cov~)

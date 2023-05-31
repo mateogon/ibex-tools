@@ -1,0 +1,5 @@
+# Ignore all .csv files in base folder
+*.csv
+
+# Ignore all .txt files in /output folder
+/output/*.txt

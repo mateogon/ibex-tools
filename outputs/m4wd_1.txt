@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/m4wd.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/m4wd.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[0.0292816082763,0.0293108898845]
+	(best bound)
+
+ x* =	(1.11679551058 ; 1.22043259562 ; 1.53776555891 ; 1.97271743328 ; 1.7908381494)
+	(best feasible point)
+
+ relative precision on f*:	0.001[32m [passed] [0m
+ absolute precision on f*:	2.92816082763e-05
+ cpu time used:			0.273841000001s
+ number of cells:		280
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/m4wd.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/m4wd.cov~)

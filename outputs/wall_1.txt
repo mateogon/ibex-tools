@@ -1,0 +1,24 @@
+
+************************ setup ************************
+  file loaded:		/home/mateo/Desktop/ibex-lib/benchs/optim/easy/wall.bch
+  random seed:		27
+  output COV file:	/home/mateo/Desktop/ibex-lib/benchs/optim/easy/wall.cov
+*******************************************************
+
+running............
+
+[32m optimization successful!
+[0m
+ f* in	[-1.00000570801,-1.00000467139]
+	(best bound)
+
+ x* =	(-1.00000467139 ; -0.99999533763 ; -4.79777852713 ; 0.99953252582 ; -0.980453785527 ; 1.00046770182)
+	(best feasible point)
+
+ relative precision on f*:	1.03661750186e-06[32m [passed] [0m
+ absolute precision on f*:	1.03662341889e-06
+ cpu time used:			0.0132400000001s
+ number of cells:		12
+
+ results written in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/wall.cov
+ (old file saved in /home/mateo/Desktop/ibex-lib/benchs/optim/easy/wall.cov~)
