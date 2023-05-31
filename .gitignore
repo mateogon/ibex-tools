@@ -3,3 +3,5 @@
 
 # Ignore all .txt files in /output folder
 /output/*.txt
+
+*.workspace
