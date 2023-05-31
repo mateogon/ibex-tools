@@ -30,7 +30,6 @@
 # ---------
 # - `execute_ibexopt`: Executes the `ibexopt` tool with a given benchmark and stores the output in a text file. 
 #    It is run in the background, allowing for parallel execution.
-# - `execute_ibexopt_baseline`: Similar to `execute_ibexopt`, but used for running the baseline benchmark.
 # - `wait_for_jobs`: Waits until the number of background jobs is below the maximum limit before returning.
 # - `run_python_script`: Runs the Python script to parse the results of the `ibexopt` executions.
 # - `apply_params`: Applies the parameters to the Ibex header file.
@@ -79,20 +78,20 @@ baseline_max_iter=10
 baseline_prec=1e-3
 baseline_num_runs=1
 
-# Function definitions
-execute_ibexopt_baseline(){
-    local file_path=$1
-    local run=$2
-    local loop_number=$3
-    local file_name=$(basename "${file_path}")
-    "${ibexopt}" "${ibex_dir}/benchs/optim/${file_path}.bch" "--random-seed=${loop_number}" > "${tools_dir}/outputs/baseline_${file_name}_${run}.txt"&
-}
+# Function definition
 execute_ibexopt() {
     local file_path=$1
     local run=$2
     local loop_number=$3
+    local is_baseline=$4
     local file_name=$(basename "${file_path}")
-    "${ibexopt}" "${ibex_dir}/benchs/optim/${file_path}.bch" "--random-seed=${loop_number}" > "${tools_dir}/outputs/${file_name}_${run}.txt" &
+    
+    local output_prefix=""
+    if [ "${is_baseline}" = "true" ]; then
+        output_prefix="baseline_"
+    fi
+
+    "${ibexopt}" "${ibex_dir}/benchs/optim/${file_path}.bch" "--random-seed=${loop_number}" > "${tools_dir}/outputs/${output_prefix}${file_name}_${run}.txt" &
 }
 
 
@@ -133,7 +132,7 @@ for run in $(seq 1 $baseline_num_runs); do
     counter=1
     while read -r file_path; do
         wait_for_jobs
-        execute_ibexopt_baseline $file_path $run 1
+        execute_ibexopt_baseline $file_path $run 1 "true"
         ((counter++))
     done < "$input_file"
     wait
@@ -154,7 +153,7 @@ for alpha in "${alpha_values[@]}"; do
                 counter=1
                 while read -r file_path; do
                     wait_for_jobs
-                    execute_ibexopt $file_path $run $loop_number
+                    execute_ibexopt $file_path $run $loop_number "false"
                     ((counter++))
                 done < "$input_file"
                 wait
