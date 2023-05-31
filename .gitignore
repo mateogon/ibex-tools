@@ -4,7 +4,7 @@
 # Ignore all .txt files in /output folder
 /outputs/*.txt
 
-*.workspace
+*.code-workspace
 
 run_tests.sh
 test_path.sh
