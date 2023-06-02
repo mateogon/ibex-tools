@@ -4,6 +4,11 @@ import re
 
 # Define the path where your CSVs are located
 csv_directory = '/home/mateo/Desktop/ibex-tools/'  # Replace with the path to your CSV files
+baseline_path = '/home/mateo/Desktop/ibex-tools/baseline_bench_data.csv'
+
+# Read the baseline data
+baseline_df = pd.read_csv(baseline_path)
+baseline_df.set_index('file', inplace=True)
 
 # Initialize list to hold all data
 all_data = []
@@ -12,26 +17,29 @@ all_data = []
 for filename in os.listdir(csv_directory):
     if filename.endswith(".csv"):
         # Extract parameter configuration from the filename
-        match = re.search('alpha.*', filename)
-        if match is not None:
-            raw_parameters = match.group()
-        else:
-            print(f"No match in filename: {filename}")
+        raw_parameters = re.search('alpha.*', filename)
+        if raw_parameters is None:
             continue
+        raw_parameters = raw_parameters.group()
+
         # Process parameters to make them more readable
         parameters = raw_parameters.replace('_', ' ').replace('.csv', '')
-        
+
         # Read the CSV
         df = pd.read_csv(os.path.join(csv_directory, filename))
-        
+        df.set_index('file', inplace=True)
+
+        # Calculate the percentage improvement over the baseline for each file
+        df['improvement'] = (baseline_df['avg_time'] - df['avg_time']) / baseline_df['avg_time'] * 100
+
         # Add a column for the parameters
         df['parameters'] = parameters
-        
+
         # Append the DataFrame to the all_data list
         all_data.append(df)
 
 # Concatenate all dataframes
-all_data = pd.concat(all_data, ignore_index=True)
+all_data = pd.concat(all_data, ignore_index=False)
 
 # Create a dictionary to hold all unique values of each parameter
 unique_values = {'alpha': set(), 'maxIter': set(), 'prec': set()}
@@ -45,16 +53,8 @@ for param_str in all_data['parameters'].unique():
     unique_values['maxIter'].add(params[1])
     unique_values['prec'].add(params[2])
 
-# Display all unique values of each parameter
-for param, values in unique_values.items():
-    print(f"{param} unique values: {values}")
-
 # Find the parameters that resulted in the minimum average time for each file
-best_params_per_file = all_data.loc[all_data.groupby('file')['avg_time'].idxmin()][['file', 'parameters']]
-
-# Print the best parameters for each problem by their names
-print("\nBest parameters for each problem:")
-print(best_params_per_file)
+best_params_per_file = all_data.loc[all_data.groupby(all_data.index)['avg_time'].idxmin()]
 
 # Count how often each parameter configuration is the best
 param_counts = best_params_per_file['parameters'].value_counts()
@@ -70,5 +70,23 @@ param_counts_df['percentage'] = (param_counts_df['count'] / total) * 100
 # Sort the DataFrame by the count column in descending order
 param_counts_df = param_counts_df.sort_values(by='count', ascending=False)
 
-print("\nMost successful parameter configurations:")
-print(param_counts_df)
+# Calculate the average improvement for each parameter configuration
+avg_improvements = all_data.groupby('parameters')['improvement'].mean()
+param_counts_df = param_counts_df.join(avg_improvements, on='parameters')
+
+# Rename the columns for clarity
+#print(param_counts_df.columns)
+param_counts_df.columns = ['parameters', 'count', 'avg_improvement_percentage', 'absolute_improvement']
+
+
+# Sort the DataFrame by the count column in descending order
+param_counts_df = param_counts_df.sort_values(by='avg_improvement_percentage', ascending=False)
+
+# Output DataFrames
+output_dfs = [all_data, best_params_per_file, param_counts_df]
+
+# Write to CSV
+with open('output.csv', 'w') as f:
+    for df in output_dfs:
+        df.to_csv(f)
+        f.write("\n")

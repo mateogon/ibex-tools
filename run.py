@@ -6,7 +6,7 @@
 # --------
 # This Python script automates the running and benchmarking of optimization tasks using the Ibex 
 # library's `ibexopt` tool. It first runs a baseline benchmark for comparison, then conducts 
-# multiple test runs with a variety of parameter combinations. It then analyzes the results 
+# multiple test runs with a variety of parameter combinations. Finally, it analyzes the results 
 # using a Python script. By running tasks in parallel, the script efficiently leverages 
 # system resources for improved performance.
 #
@@ -18,7 +18,6 @@
 # - `input_file`: Name of the input file containing the list of benchmarks to run
 # - `python_interpreter`: Location of the Python interpreter
 # - `python_script`: Location of the Python script used to parse the results
-# - `python_script_baseline`: Location of the Python script used to create the baseline
 # - `ibexopt`: Location of the `ibexopt` executable
 # - `header_file`: Location of the Ibex header file where the parameters are defined
 # - `num_runs`: Number of runs
@@ -44,12 +43,13 @@
 #    - Executes the `ibexopt` tool for each benchmark in the input file, up to `num_runs` times each. 
 #      These executions are done as subprocesses, up to `max_jobs` concurrent subprocesses.
 #    - Waits for all `ibexopt` subprocesses to finish.
-#    - Runs the Python script to parse the results.
 #    - Increments the loop counter and starts again with the next parameter combination.
+# 3. After all parameter combinations have been tested, the Python script to parse the results is run.
 #
 # The output of each `ibexopt` execution is saved to a text file in the `outputs` directory. The filename contains the 
-# name of the benchmark file and the run number, and for baseline runs, it is prefixed with `baseline_`.
+# name of the benchmark file, the run number, the parameter combination, and for baseline runs, it is prefixed with `baseline_`.
 # ---------------------------------------------
+
 
 import os
 import subprocess
@@ -64,13 +64,12 @@ tools_dir="/home/mateo/Desktop/ibex-tools"  # Directory of ibex-tools
 input_file=f"{tools_dir}/bench_list"  # Name of the input file
 python_interpreter="/usr/bin/python3"  # Python interpreter location
 python_script=f"{tools_dir}/parse_results.py"  # Python script location
-python_script_baseline=f"{tools_dir}/create_baseline.py"  # Python script location for baseline
 ibexopt=f"{ibex_dir}/__build__/src/ibexopt"  # ibexopt location
 header_file=f"{ibex_dir}/src/loup/ibex_LoupFinderIterative.h"  # Header file location
 
-num_runs=10  # Number of runs
+num_runs=3  # Number of runs
 # Maximum number of parallel jobs, adjust this to the number of CPU cores on your machine
-max_jobs=cpu_count()  # cpu_count()
+max_jobs=50  # cpu_count()
 # Parameter combinations to test
 alpha_values=[0.8, 0.75, 0.85]
 max_iter_values=[4, 5, 6]
@@ -83,14 +82,19 @@ baseline_alpha=0.9
 baseline_max_iter=10
 baseline_prec=1e-3
 baseline_num_runs=5
+baseline_params = (baseline_alpha, baseline_max_iter, baseline_prec)
 
 
-def execute_ibexopt(file_path, run, loop_number, is_baseline):
+def execute_ibexopt(file_path, run, loop_number, is_baseline, alpha, max_iter, prec):
     file_name = os.path.basename(file_path)
     output_prefix = "baseline_" if is_baseline else ""
-    output_file = f"{tools_dir}/outputs/{output_prefix}{file_name}_{run}.txt"
-    cmd = f"{ibexopt} {ibex_dir}/benchs/optim/{file_path}.bch --random-seed={loop_number} > {output_file}"
-    subprocess.Popen(cmd, shell=True)
+    alpha_str = str(alpha).replace(".", ",")
+    max_iter_str = str(max_iter)
+    prec_str = str(prec).replace(".", ",")
+    output_params = f"_alpha{alpha_str}_maxIter{max_iter_str}_prec{prec_str}"
+    output_file = f"{tools_dir}/outputs/{output_prefix}{file_name+output_params}-{run}.txt"
+    cmd = f"unbuffer {ibexopt} {ibex_dir}/benchs/optim/{file_path}.bch --random-seed={loop_number} > {output_file}"
+    return subprocess.Popen(cmd, shell=True)
 
 
 def wait_for_jobs():
@@ -100,10 +104,13 @@ def wait_for_jobs():
         time.sleep(1)
 
 
-def run_python_script(alpha, max_iter, prec, script):
-    cmd = f"{python_interpreter} {script} --alpha {alpha} --max_iter {max_iter} --prec {prec} --ibex_tools_dir {tools_dir} --bench_list {input_file}"
+def run_python_script(script):
+    alpha_str = ' '.join(map(str, alpha_values))
+    max_iter_str = ' '.join(map(str, max_iter_values))
+    prec_str = ' '.join(map(str, prec_values))
+    baseline_str = ' '.join(map(str, baseline_params))
+    cmd = f"{python_interpreter} {script} --alpha {alpha_str} --max_iter {max_iter_str} --prec {prec_str} --baseline_params \"{baseline_str}\" --ibex_tools_dir {tools_dir} --bench_list {input_file}"
     subprocess.run(cmd, shell=True)
-
 
 def apply_params(alpha, max_iter, prec):
     with open(header_file, "r") as file:
@@ -128,11 +135,17 @@ with open(input_file, "r") as file:
 
 for run in range(1, baseline_num_runs + 1):
     print(f"Starting run {run} out of {baseline_num_runs}")
+    processes = []
     for file_path in file_paths:
         wait_for_jobs()
-        execute_ibexopt(file_path, run, 1, True)
+        p = execute_ibexopt(file_path, run, 1, True, baseline_alpha, baseline_max_iter, baseline_prec)
+        processes.append(p)
+    # Wait for all processes to finish
+    for p in processes:
+        p.wait()
 
-run_python_script(baseline_alpha, baseline_max_iter, baseline_prec, python_script_baseline)
+run_python_script([baseline_alpha], [baseline_max_iter], [baseline_prec], python_script_baseline)
+
 
 # Now proceed with the main loop for other parameter combinations
 loop_number=1
@@ -143,9 +156,14 @@ for alpha, max_iter, prec in itertools.product(alpha_values, max_iter_values, pr
 
     for run in range(1, num_runs + 1):
         print(f"Starting run {run} out of {num_runs}")
+        processes = []
         for file_path in file_paths:
             wait_for_jobs()
-            execute_ibexopt(file_path, run, loop_number, False)
-    run_python_script(alpha, max_iter, prec, python_script)
-
+            p = execute_ibexopt(file_path, run, loop_number, False, alpha, max_iter, prec)
+            processes.append(p)
+        # Wait for all processes to finish
+        for p in processes:
+            p.wait()
     loop_number += 1
+    
+run_python_script(python_script)

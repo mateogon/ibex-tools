@@ -1,6 +1,6 @@
 # Ibex Optimization Benchmark Automation
 
-This project automates the running and benchmarking of optimization tasks using the Ibex library's `ibexopt` tool. The project includes two main scripts: `run.py`, which orchestrates the running of the optimization tasks, and `parse_results.py`, a Python script which processes the output of the tasks to extract relevant statistics.
+This project automates the running and benchmarking of optimization tasks using the Ibex library's `ibexopt` tool. The project includes two main scripts: `run.py`, which orchestrates the running of the optimization tasks, and `parse_results.py`, a script which processes the output of the tasks to extract relevant statistics.
 
 ## Requirements
 
