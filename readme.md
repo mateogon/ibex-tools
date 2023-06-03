@@ -42,36 +42,36 @@ Replace /path/to/your/run.py with the actual path to your run.py script.
 
 The script will print its progress to the console and create output files for each benchmark run in the outputs directory of your tools_dir.
 
-After all runs are completed, the script will call the specified Python script (parse_results.py) to parse the output files and consolidate the results into a single CSV file for each parameter combination. Subsequently, it invokes the generate_results() function to create a comprehensive CSV file 'combined_results_data.csv' which includes improvement statistics and identifies the best parameters per file.
+After all runs are completed, the script will call the specified Python script (parse_results.py) to parse the output files and consolidate the results into a single CSV file for each parameter combination. Subsequently, it invokes the generate_results() function to create a comprehensive CSV file `combined_results_data.csv` which includes improvement statistics and identifies the best parameters per file.
 
 ## Output CSV File Columns Explanation
 
-The script `generate_results_csv.py` generates a combined CSV file `combined_results_data.csv` containing two main sections: 'Best Parameters per File' and 'All Parameter Configurations'.
+The script `generate_results_csv.py` generates a combined CSV file `combined_results_data.csv` containing two main sections: `Best Parameters per File` and `All Parameter Configurations`.
 
 ### Best Parameters per File
 
 This section contains the following columns:
 
-- 'file': The file name of the test case.
-- 'parameters': The configuration parameters extracted from the file name.
-- 'avg_time_best': The average time of the best performing configuration for the test case.
-- 'avg_time_baseline': The average time of the baseline for the test case.
-- 'improvement_best': The improvement percentage of the best configuration over the baseline for the test case.
+- `file`: The file name of the test case.
+- `parameters`: The configuration parameters extracted from the file name.
+- `avg_time_best`: The average time of the best performing configuration for the test case.
+- `avg_time_baseline`: The average time of the baseline for the test case.
+- `improvement_best`: The improvement percentage of the best configuration over the baseline for the test case.
 
 ### All Parameter Configurations
 
 This section contains the following columns:
 
-- 'parameters': The configuration parameters.
-- 'count_best': The number of times the parameters configuration was the best.
-- 'mean_improvement_best': The mean improvement of the best cases for this configuration.
-- 'std_dev_improvement_best': The standard deviation of the improvement of the best cases for this configuration.
-- 'min_improvement_best': The minimum improvement of the best cases for this configuration.
-- 'max_improvement_best': The maximum improvement of the best cases for this configuration.
-- 'mean_improvement_all': The mean improvement of all cases for this configuration.
-- 'std_dev_improvement_all': The standard deviation of the improvement of all cases for this configuration.
-- 'min_improvement_all': The minimum improvement of all cases for this configuration.
-- 'max_improvement_all': The maximum improvement of all cases for this configuration.
-- 'total_time_improvement': The total time improvement for this configuration.
+- `parameters`: The configuration parameters.
+- `count_best`: The number of times the parameters configuration was the best.
+- `mean_improvement_best`: The mean improvement of the best cases for this configuration.
+- `std_dev_improvement_best`: The standard deviation of the improvement of the best cases for this configuration.
+- `min_improvement_best`: The minimum improvement of the best cases for this configuration.
+- `max_improvement_best`: The maximum improvement of the best cases for this configuration.
+- `mean_improvement_all`: The mean improvement of all cases for this configuration.
+- `std_dev_improvement_all`: The standard deviation of the improvement of all cases for this configuration.
+- `min_improvement_all`: The minimum improvement of all cases for this configuration.
+- `max_improvement_all`: The maximum improvement of all cases for this configuration.
+- `total_time_improvement`: The total time improvement for this configuration.
 
 These metrics are used to analyze and compare the performance of different parameter configurations and to identify the best performing configurations for different optimization tasks.
