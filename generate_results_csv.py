@@ -26,10 +26,6 @@ The output file 'combined_results_data.csv' will be written to the same director
  'avg_time_baseline': The average time of the baseline for the test case.
  'improvement_best': The improvement percentage of the best configuration over the baseline for the test case.
 
-best_params_per_file = merged_df[['file', 'parameters', 'avg_time_best', 'avg_time_baseline', 'improvement_best']]
-
- Rest of your code...
-
  The dataframe merged_param_df is added to the CSV file with the following columns:
  'parameters': The configuration parameters.
  'count_best': The number of times the parameters configuration was the best.
