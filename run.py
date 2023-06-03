@@ -32,6 +32,10 @@
 # - `wait_for_jobs`: Waits until the number of subprocesses is below the maximum limit before returning.
 # - `run_python_script`: Runs the Python script to parse the results of the `ibexopt` executions.
 # - `apply_params`: Applies the parameters to the Ibex header file.
+# - `generate_results()`: Reads all the CSV files in the script directory, finds the baseline benchmark CSV file,
+#     extracts the parameter configurations from each CSV file name, merges the data from all CSVs into one DataFrame,
+#     calculates the improvement for each file, identifies the best parameters per file, counts how often each
+#     parameter configuration yields the best results, and writes the results to a new CSV file 'combined_results_data.csv'.
 #
 # EXECUTION
 # ---------
@@ -45,10 +49,12 @@
 #    - Waits for all `ibexopt` subprocesses to finish.
 #    - Increments the loop counter and starts again with the next parameter combination.
 # 3. After all parameter combinations have been tested, the Python script to parse the results is run.
+# 4. Calls the `generate_results()` function to generate a combined CSV file of the results.
 #
 # The output of each `ibexopt` execution is saved to a text file in the `outputs` directory. The filename contains the 
 # name of the benchmark file, the run number, the parameter combination, and for baseline runs, it is prefixed with `baseline_`.
 # ---------------------------------------------
+
 
 
 import os
@@ -57,7 +63,7 @@ import time
 import itertools
 from multiprocessing import Pool, cpu_count
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
+from generate_results_csv import generate_results
 # Variable definitions
 ibex_dir="/home/mateo/Desktop/ibex-lib"  # Directory of ibex-lib
 tools_dir="/home/mateo/Desktop/ibex-tools"  # Directory of ibex-tools
@@ -72,7 +78,7 @@ num_runs=3  # Number of runs
 max_jobs=50  # cpu_count()
 # Parameter combinations to test
 alpha_values=[0.8, 0.75, 0.85]
-max_iter_values=[4, 5, 6]
+max_iter_values=[4, 6, 8 , 10]
 prec_values=[1e-4, 5e-5, 2e-4]
 
 num_combinations = len(alpha_values) * len(max_iter_values) * len(prec_values)
@@ -93,7 +99,7 @@ def execute_ibexopt(file_path, run, loop_number, is_baseline, alpha, max_iter, p
     prec_str = str(prec).replace(".", ",")
     output_params = f"_alpha{alpha_str}_maxIter{max_iter_str}_prec{prec_str}"
     output_file = f"{tools_dir}/outputs/{output_prefix}{file_name+output_params}-{run}.txt"
-    cmd = f"unbuffer {ibexopt} {ibex_dir}/benchs/optim/{file_path}.bch --random-seed={loop_number} > {output_file}"
+    cmd = f"{ibexopt} {ibex_dir}/benchs/optim/{file_path}.bch --random-seed={loop_number} > {output_file}"
     return subprocess.Popen(cmd, shell=True)
 
 
@@ -143,10 +149,7 @@ for run in range(1, baseline_num_runs + 1):
     # Wait for all processes to finish
     for p in processes:
         p.wait()
-
-run_python_script([baseline_alpha], [baseline_max_iter], [baseline_prec], python_script_baseline)
-
-
+        
 # Now proceed with the main loop for other parameter combinations
 loop_number=1
 
@@ -167,3 +170,4 @@ for alpha, max_iter, prec in itertools.product(alpha_values, max_iter_values, pr
     loop_number += 1
     
 run_python_script(python_script)
+generate_results()

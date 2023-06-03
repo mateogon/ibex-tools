@@ -18,7 +18,6 @@ Modify the `run.py` script to set the correct paths for your environment:
 - `input_file`: Name of the input file containing the list of benchmarks to run.
 - `python_interpreter`: Location of your Python 3 interpreter. (Run `where python3` to find out)
 - `python_script`: Location of the Python script used to parse the results (`parse_results.py`).
-- `python_script_baseline`: Location of the Python script used to create the baseline.
 - `ibexopt`: Location of the `ibexopt` executable.
 - `header_file`: Location of the Ibex header file where the parameters are defined.
 - `num_runs`: Number of runs for each benchmark.
@@ -36,10 +35,11 @@ To start the benchmark tests, run:
 
 ```bash
 sudo /bin/python3 /path/to/your/run.py
+
 ```
 
 Replace /path/to/your/run.py with the actual path to your run.py script.
 
 The script will print its progress to the console and create output files for each benchmark run in the outputs directory of your tools_dir.
 
-After all runs are completed, the script will call the specified Python script (parse_results.py) to parse the output files and consolidate the results into a single CSV file.
+After all runs are completed, the script will call the specified Python script (parse_results.py) to parse the output files and consolidate the results into a single CSV file. Subsequently, it invokes the generate_results() function to create a comprehensive CSV file 'combined_results_data.csv' which includes improvement statistics and identifies the best parameters per file.
