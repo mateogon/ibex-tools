@@ -49,7 +49,7 @@ def generate_results():
             if match is not None:
                 raw_parameters = match.group()
             else:
-                print(f"No match in filename: {filename}")
+                #print(f"No match in filename: {filename}")
                 continue
             # Process parameters to make them more readable
             parameters = raw_parameters.replace('_', ' ').replace('.csv', '')
