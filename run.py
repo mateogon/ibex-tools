@@ -73,9 +73,9 @@ python_script=f"{tools_dir}/parse_results.py"  # Python script location
 ibexopt=f"{ibex_dir}/__build__/src/ibexopt"  # ibexopt location
 header_file=f"{ibex_dir}/src/loup/ibex_LoupFinderIterative.h"  # Header file location
 
-num_runs=3  # Number of runs
+num_runs=3  # Number of runs per parameter combination
 # Maximum number of parallel jobs, adjust this to the number of CPU cores on your machine
-max_jobs=50  # cpu_count()
+max_jobs= cpu_count()
 # Parameter combinations to test
 alpha_values=[0.8, 0.75, 0.85]
 max_iter_values=[4, 6, 8 , 10]
