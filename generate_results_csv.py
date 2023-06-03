@@ -46,7 +46,7 @@ import pandas as pd
 import re
 import numpy as np
 
-def generate_results(num_runs_test, num_runs_baseline):
+def generate_results(num_runs_test=10, num_runs_baseline=10, decimals=7):
     csv_directory = os.path.dirname(os.path.abspath(__file__))
     output_file = 'combined_results_data.csv'
     all_data = []
@@ -102,8 +102,8 @@ def generate_results(num_runs_test, num_runs_baseline):
     merged_param_df = merged_param_df.sort_values(by='count_best', ascending=False)
 
     # After calculations, before writing to CSV
-    best_params_per_file = best_params_per_file.round(7)
-    merged_param_df = merged_param_df.round(7)
+    best_params_per_file = best_params_per_file.round(decimals)
+    merged_param_df = merged_param_df.round(decimals)
 
     with open(output_file, 'w') as f:
         f.write("\nBest Parameters per File\n")
@@ -112,5 +112,3 @@ def generate_results(num_runs_test, num_runs_baseline):
     with open(output_file, 'a') as f:
         f.write("\nAll Parameter Configurations\n")
     merged_param_df.to_csv(output_file, mode='a', index=False)
-    
-generate_results(5, 5)

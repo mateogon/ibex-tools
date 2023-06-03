@@ -170,4 +170,4 @@ for alpha, max_iter, prec in itertools.product(alpha_values, max_iter_values, pr
     loop_number += 1
     
 run_python_script(python_script)
-generate_results()
+generate_results(num_runs,baseline_num_runs)
