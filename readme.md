@@ -1,6 +1,6 @@
 # Ibex Optimization Benchmark Automation
 
-This project automates the running and benchmarking of optimization tasks using the Ibex library's `ibexopt` tool. The project includes two main scripts: `run.py`, which orchestrates the running of the optimization tasks, and `parse_results.py`, a script which processes the output of the tasks to extract relevant statistics.
+This project automates the running and benchmarking of optimization tasks using the Ibex library's `ibexopt` tool. The project includes three main scripts: `run.py`, which orchestrates the running of the optimization tasks, `parse_results.py`, a script which processes the output of the tasks to extract relevant statistics, and `generate_results_csv.py`, a script that generates a combined CSV file containing the results of different test cases and their respective improvements over a baseline.
 
 ## Requirements
 
@@ -42,4 +42,4 @@ Replace /path/to/your/run.py with the actual path to your run.py script.
 
 The script will print its progress to the console and create output files for each benchmark run in the outputs directory of your tools_dir.
 
-After all runs are completed, the script will call the specified Python script (parse_results.py) to parse the output files and consolidate the results into a single CSV file. Subsequently, it invokes the generate_results() function to create a comprehensive CSV file 'combined_results_data.csv' which includes improvement statistics and identifies the best parameters per file.
+After all runs are completed, the script will call the specified Python script (parse_results.py) to parse the output files and consolidate the results into a single CSV file for each parameter combination. Subsequently, it invokes the generate_results() function to create a comprehensive CSV file 'combined_results_data.csv' which includes improvement statistics and identifies the best parameters per file.
